@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lff">
-    <q-header class="bg-grey-2 text-black bordered-bottom q-py-sm">
+    <q-header v-if="route.path === '/'" class="bg-grey-2 text-black bordered-bottom q-py-sm">
       <q-toolbar>
         <!-- Logo Area -->
         <q-toolbar-title 
@@ -48,7 +48,7 @@
     </q-page-container>
 
     <q-footer id="contact" class="bg-black text-white">
-      <div class="q-pa-xl">
+      <div class="q-pa-xl" v-if="route.path === '/'">
         <div class="row q-col-gutter-xl">
           <!-- About Section -->
           <div class="col-12 col-md-4">
