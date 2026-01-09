@@ -33,6 +33,14 @@
       <q-separator />
 
       <q-list padding class="text-grey-8">
+        <!-- Home -->
+        <q-item clickable v-ripple to="/dashboard/home" active-class="text-primary bg-green-1">
+          <q-item-section avatar>
+            <q-icon name="home" />
+          </q-item-section>
+          <q-item-section class="text-weight-medium">Home</q-item-section>
+        </q-item>
+
         <!-- Profile -->
         <q-item clickable v-ripple to="/dashboard/profile" active-class="text-primary bg-green-1">
           <q-item-section avatar>
@@ -95,23 +103,30 @@ const miniState = ref(false) // Start expanded
 const router = useRouter()
 const $q = useQuasar()
 
-async function handleLogout() {
-  try {
-    const { error } = await supabase.auth.signOut()
-    if (error) throw error
-    
-    $q.notify({
-        type: 'positive',
-        message: 'Logged out successfully'
-    })
-    
-    router.push('/')
-  } catch (error) {
-    $q.notify({
-        type: 'negative',
-        message: error.message || 'Error logging out'
-    })
-  }
+function handleLogout() {
+  $q.dialog({
+    title: 'Confirm Logout',
+    message: 'Are you sure you want to log out?',
+    cancel: true,
+    persistent: true
+  }).onOk(async () => {
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+      
+      $q.notify({
+          type: 'positive',
+          message: 'Logged out successfully'
+      })
+      
+      router.push('/')
+    } catch (error) {
+      $q.notify({
+          type: 'negative',
+          message: error.message || 'Error logging out'
+      })
+    }
+  })
 }
 </script>
 

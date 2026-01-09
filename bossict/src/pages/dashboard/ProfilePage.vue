@@ -11,7 +11,7 @@
             <q-card flat bordered class="rounded-borders">
                 <q-card-section class="flex flex-center column">
                      <q-avatar size="100px" class="q-mb-md cursor-pointer relative-position shadow-2">
-                        <img :src="profile.avatar_url || 'https://cdn.quasar.dev/img/boy-avatar.png'" style="object-fit: cover;">
+                        <img :src="profileData.avatar_url || 'https://cdn.quasar.dev/img/boy-avatar.png'" style="object-fit: cover;">
                         <q-btn round dense icon="edit" size="sm" color="primary" class="absolute-bottom-right" @click="$refs.avatarInput.pickFiles()"/>
                      </q-avatar>
                      <q-file 
@@ -35,44 +35,44 @@
                     <div class="row q-col-gutter-md">
                         <!-- Email (Read Only) -->
                         <div class="col-12">
-                            <q-input v-model="profile.email" label="Email Address" outlined readonly bg-color="grey-1">
+                            <q-input v-model="profileData.email" label="Email Address" outlined readonly bg-color="grey-1">
                                 <template v-slot:prepend><q-icon name="email" /></template>
                             </q-input>
                         </div>
 
                         <!-- Names -->
                         <div class="col-12 col-md-6">
-                            <q-input v-model="profile.first_name" label="First Name" outlined :rules="[val => !!val || 'Required']" />
+                            <q-input v-model="profileData.first_name" label="First Name" outlined :rules="[val => !!val || 'Required']" />
                         </div>
                         <div class="col-12 col-md-6">
-                            <q-input v-model="profile.last_name" label="Last Name" outlined :rules="[val => !!val || 'Required']" />
+                            <q-input v-model="profileData.last_name" label="Last Name" outlined :rules="[val => !!val || 'Required']" />
                         </div>
 
                          <!-- Contact -->
                         <div class="col-12 col-md-6">
-                            <q-input v-model="profile.phone" label="Mobile Number" outlined mask="### ### ####" hint="Format: 077 123 4567" :rules="[val => !!val || 'Required']" />
+                            <q-input v-model="profileData.mobile_number" label="Mobile Number" outlined mask="### ### ####" hint="Format: 077 123 4567" :rules="[val => !!val || 'Required']" />
                         </div>
                         <div class="col-12 col-md-6">
-                            <q-input v-model="profile.whatsapp_number" label="WhatsApp Number" outlined mask="### ### ####" hint="Format: 077 123 4567" />
+                            <q-input v-model="profileData.whatsapp_number" label="WhatsApp Number" outlined mask="### ### ####" hint="Format: 077 123 4567" />
                         </div>
                         
                         <!-- ID & Personal -->
                         <div class="col-12 col-md-6">
-                            <q-input v-model="profile.nic_number" label="NIC Number" outlined :rules="[val => !!val || 'Required']" />
+                            <q-input v-model="profileData.nic_number" label="NIC Number" outlined :rules="[val => !!val || 'Required']" />
                         </div>
                          <div class="col-12 col-md-6">
-                            <q-input v-model="profile.school" label="School" outlined />
+                            <q-input v-model="profileData.school" label="School" outlined />
                         </div>
 
                         <!-- Location -->
                         <div class="col-12 col-md-6">
-                            <q-input v-model="profile.hometown" label="Home Town" outlined />
+                            <q-input v-model="profileData.home_town" label="Home Town" outlined />
                         </div>
                         <div class="col-12 col-md-6">
-                            <q-select v-model="profile.district" :options="districts" label="District" outlined />
+                            <q-select v-model="profileData.district" :options="districts" label="District" outlined />
                         </div>
                         <div class="col-12">
-                            <q-input v-model="profile.address" label="Address" outlined type="textarea" rows="3" />
+                            <q-input v-model="profileData.address" label="Address" outlined type="textarea" rows="3" />
                         </div>
                     </div>
                 </q-card-section>
@@ -84,13 +84,13 @@
                     <div class="text-h6 q-mb-md">Academic Details</div>
                     <div class="row q-col-gutter-md">
                         <div class="col-12 col-md-4">
-                            <q-select v-model="profile.attempt" :options="['1st Attempt', '2nd Attempt', '3rd Attempt']" label="Attempt" outlined />
+                            <q-select v-model="profileData.attempt" :options="['1st Attempt', '2nd Attempt', '3rd Attempt']" label="Attempt" outlined />
                         </div>
                         <div class="col-12 col-md-4">
-                            <q-input v-model="profile.exam_year" label="Exam Year" outlined type="number" />
+                            <q-input v-model="profileData.exam_year" label="Exam Year" outlined type="number" />
                         </div>
                          <div class="col-12 col-md-4">
-                            <q-select v-model="profile.medium" :options="['Sinhala', 'English']" label="Medium" outlined />
+                            <q-select v-model="profileData.medium" :options="['Sinhala', 'English']" label="Medium" outlined />
                         </div>
                     </div>
                  </q-card-section>
@@ -105,16 +105,16 @@
                             <q-file outlined v-model="nicFrontFile" label="NIC Front Image" accept="image/*" @update:model-value="uploadNicFront">
                                 <template v-slot:prepend><q-icon name="cloud_upload" /></template>
                             </q-file>
-                            <div v-if="profile.nic_front_url" class="q-mt-sm">
-                                <q-img :src="profile.nic_front_url" style="height: 150px; border-radius: 8px;" fit="cover"/>
+                            <div v-if="profileData.nic_front_url" class="q-mt-sm">
+                                <q-img :src="profileData.nic_front_url" style="height: 150px; border-radius: 8px;" fit="cover"/>
                             </div>
                         </div>
                          <div class="col-12 col-md-6">
                             <q-file outlined v-model="nicBackFile" label="NIC Back Image" accept="image/*" @update:model-value="uploadNicBack">
                                 <template v-slot:prepend><q-icon name="cloud_upload" /></template>
                             </q-file>
-                             <div v-if="profile.nic_back_url" class="q-mt-sm">
-                                <q-img :src="profile.nic_back_url" style="height: 150px; border-radius: 8px;" fit="cover"/>
+                             <div v-if="profileData.nic_back_url" class="q-mt-sm">
+                                <q-img :src="profileData.nic_back_url" style="height: 150px; border-radius: 8px;" fit="cover"/>
                             </div>
                         </div>
                     </div>
@@ -168,16 +168,16 @@ const avatarFile = ref(null)
 const nicFrontFile = ref(null)
 const nicBackFile = ref(null)
 
-const profile = ref({
+const profileData = ref({
     email: '',
     first_name: '',
     last_name: '',
     full_name: '', // legacy
-    phone: '',
+    mobile_number: '',
     whatsapp_number: '',
     nic_number: '',
     school: '',
-    hometown: '',
+    home_town: '',
     district: '',
     address: '',
     attempt: '1st Attempt',
@@ -206,7 +206,7 @@ async function fetchProfile() {
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return
 
-        profile.value.email = user.email
+        profileData.value.email = user.email
 
         const { data, error } = await supabase
             .from('profiles')
@@ -217,13 +217,11 @@ async function fetchProfile() {
         if (error && error.code !== 'PGRST116') throw error 
 
         if (data) {
-            // Merge existing data
-            Object.assign(profile.value, data)
-            // Handle name split if first/last missing but full exists (legacy support)
-            if (!profile.value.first_name && profile.value.full_name) {
-                const parts = profile.value.full_name.split(' ')
-                profile.value.first_name = parts[0]
-                profile.value.last_name = parts.slice(1).join(' ')
+            Object.assign(profileData.value, data)
+            if (!profileData.value.first_name && profileData.value.full_name) {
+                const parts = profileData.value.full_name.split(' ')
+                profileData.value.first_name = parts[0]
+                profileData.value.last_name = parts.slice(1).join(' ')
             }
         }
     } catch (error) {
@@ -240,27 +238,24 @@ async function updateProfile() {
         if (!user) throw new Error('No user logged in')
 
         // Construct full name for legacy or display
-        const full = `${profile.value.first_name} ${profile.value.last_name}`.trim()
+        const full = `${profileData.value.first_name} ${profileData.value.last_name}`.trim()
         
         const updates = {
             id: user.id,
-            first_name: profile.value.first_name,
-            last_name: profile.value.last_name,
+            email: profileData.value.email,
+            first_name: profileData.value.first_name,
+            last_name: profileData.value.last_name,
             full_name: full,
-            phone: profile.value.phone,
-            whatsapp_number: profile.value.whatsapp_number,
-            nic_number: profile.value.nic_number,
-            school: profile.value.school,
-            hometown: profile.value.hometown,
-            district: profile.value.district,
-            address: profile.value.address,
-            attempt: profile.value.attempt,
-            exam_year: profile.value.exam_year,
-            medium: profile.value.medium,
-            avatar_url: profile.value.avatar_url,
-            nic_front_url: profile.value.nic_front_url,
-            nic_back_url: profile.value.nic_back_url,
-            updated_at: new Date()
+            mobile_number: profileData.value.mobile_number,
+            whatsapp_number: profileData.value.whatsapp_number,
+            nic_number: profileData.value.nic_number,
+            school: profileData.value.school,
+            home_town: profileData.value.home_town,
+            district: profileData.value.district,
+            address: profileData.value.address,
+            attempt: profileData.value.attempt,
+            exam_year: profileData.value.exam_year,
+            medium: profileData.value.medium
         }
 
         const { error } = await supabase
@@ -278,6 +273,7 @@ async function updateProfile() {
 }
 
 // Image Upload Helper
+// Image Upload Helper
 async function uploadFile(file, folder, columnToUpdate) {
     if (!file) return
     loading.value = true
@@ -286,28 +282,31 @@ async function uploadFile(file, folder, columnToUpdate) {
          if (!user) return
 
          const fileExt = file.name.split('.').pop()
-         const fileName = `${user.id}/${folder}/${Date.now()}.${fileExt}`
+         const fileName = `${user.id}/${Date.now()}.${fileExt}` // Simplified path
          const filePath = `${fileName}`
 
-         // Upload to Supabase Storage (Bucket: 'profile-files')
+         // Determine bucket based on folder type
+         const bucketName = folder === 'avatars' ? 'avatars' : 'profile-files'
+
+         // Upload to Supabase Storage
          const { error: uploadError } = await supabase.storage
-            .from('profile-files')
+            .from(bucketName)
             .upload(filePath, file)
 
          if (uploadError) throw uploadError
 
          // Get Public URL
          const { data: { publicUrl } } = supabase.storage
-            .from('profile-files')
+            .from(bucketName)
             .getPublicUrl(filePath)
          
          // Update Local State
-         profile.value[columnToUpdate] = publicUrl
+         profileData.value[columnToUpdate] = publicUrl
          
          $q.notify({ type: 'positive', message: 'Image uploaded successfully!' })
     } catch (error) {
          console.error(error)
-         $q.notify({ type: 'negative', message: 'Upload failed: ' + error.message })
+         $q.notify({ type: 'warning', message: 'Image upload failed, but you can still save other details. Error: ' + error.message })
     } finally {
         loading.value = false
     }

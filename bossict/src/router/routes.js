@@ -14,7 +14,8 @@ const routes = [
     path: '/dashboard',
     component: () => import('layouts/DashboardLayout.vue'),
     children: [
-      { path: '', redirect: '/dashboard/available-lessons' },
+      { path: '', redirect: '/dashboard/home' },
+      { path: 'home', component: () => import('pages/dashboard/DashboardHomePage.vue') },
       { path: 'profile', component: () => import('pages/dashboard/ProfilePage.vue') },
       { path: 'my-lessons', component: () => import('pages/dashboard/MyLessonsPage.vue') },
       { path: 'available-lessons', component: () => import('pages/dashboard/AvailableLessonsPage.vue') },
